@@ -1,6 +1,7 @@
-// The console's colours: charcoal, amber primary, holo cyan, red for anything that bites. The same as the terminal.
-export const AMBER = "#D9A441", CYAN = "#4FC3D9", RED = "#E5484D", GREEN = "#5FB98A", DIM = "#5C6773", WHITE = "#D6DCE4";
-export const GREY = "#8B95A1", GOLD = "#FFD27A", INK = "#06080B";
+// The web console's colours: hex mirrors of the OKLCH tokens in theme.css (blend() does its maths on hex). Upstream's
+// names stay so the components don't change: AMBER is now the menu-blue accent and CYAN the pale holo.
+export const AMBER = "#39B5FF", CYAN = "#9BE4FC", RED = "#F8535A", GREEN = "#52D88C", DIM = "#5E748B", WHITE = "#E6F0F8";
+export const GREY = "#96AEC3", GOLD = "#FFD27A", INK = "#030B1A";
 
 export type RGB = [number, number, number];
 
