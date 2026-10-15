@@ -1,73 +1,44 @@
-/* Browser chrome, the sign-in and the landing screen, in the web console's HUD language (tokens in theme.css). */
+/* Browser chrome, the sign-in and the landing screen, in the web console's terminal language (tokens in theme.css). */
 .web-shell { height: 100%; display: flex; flex-direction: column; }
 .web-content { flex: 1; min-height: 0; }
 .web-toolbar {
   flex: none; min-height: 48px; padding: 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 18px;
-  border-bottom: 1px solid var(--rule); background: linear-gradient(180deg, var(--panel), color-mix(in oklch, var(--surface) 85%, transparent));
-  box-shadow: 0 8px 24px color-mix(in oklch, var(--ink) 60%, transparent);
-  font: 600 13px/1 var(--font-display); letter-spacing: .14em; text-transform: uppercase; color: var(--grey);
+  border-bottom: 1px solid var(--rule); background: var(--surface);
+  font: 400 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--grey);
 }
-.web-toolbar b { color: var(--cyan); font: 700 22px/1 var(--font-display); letter-spacing: .38em; filter: drop-shadow(0 0 10px var(--color-glow)); }
+.web-toolbar b { color: var(--cyan); font: 700 22px/1 var(--font-display); letter-spacing: .38em; }
 .web-divider { color: var(--amber); padding: 0 12px 0 4px; }
 .web-toolbar small { color: var(--dim); margin-left: 14px; font-size: 11px; padding: 3px 8px; border: 1px solid var(--line); }
-.web-toolbar button { color: var(--grey); border: 1px solid var(--line); background: none; cursor: pointer; padding: 7px 12px; letter-spacing: .14em; text-transform: uppercase; clip-path: var(--chamfer); transition: color .15s, background-color .15s; }
+.web-toolbar button { color: var(--grey); border: 1px solid var(--line); background: none; cursor: pointer; padding: 7px 12px; font: inherit; letter-spacing: .08em; text-transform: uppercase; clip-path: var(--chamfer); transition: color .1s, background-color .1s; }
 .web-toolbar button:hover { color: var(--white); background: color-mix(in oklch, var(--amber) 16%, transparent); }
-.web-toolbar button:active { transform: translateY(1px); }
-.web-online { color: var(--green); text-shadow: 0 0 10px color-mix(in oklch, var(--green) 50%, transparent); }.web-muted { color: var(--grey); }
-/* the toolbar stays alive: a light runs along its edge, the wordmark glints, the live dot breathes */
-.web-toolbar { position: relative; }
-.web-toolbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; pointer-events: none; background: linear-gradient(90deg, transparent, var(--cyan), transparent) -70% 0 / 40% 100% no-repeat; animation: run 7s ease-in-out infinite; }
-@keyframes run { 55%, 100% { background-position: 170% 0; } }
-.web-toolbar b, .setup-heading h1 span { -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 300% 100%; background-position: 100% 0; animation: shimmer 6s ease-in-out infinite; }
-.web-toolbar b { background-image: linear-gradient(100deg, var(--cyan) 42%, var(--white) 50%, var(--cyan) 58%); }
-@keyframes shimmer { 0%, 40% { background-position: 100% 0; } 100% { background-position: 0 0; } }
-.web-online > span:first-child { display: inline-block; animation: live 1.8s ease-in-out infinite; }
-@keyframes live { 50% { opacity: .3; transform: scale(.7); } }
+.web-online { color: var(--green); }.web-muted { color: var(--grey); }
 
 /* sign-in */
-.web-login { height: 100%; display: grid; place-items: center; padding: 24px; background: radial-gradient(60% 50% at 50% 40%, color-mix(in oklch, var(--amber) 18%, transparent), transparent 70%); }
+.web-login { height: 100%; display: grid; place-items: center; padding: 24px; }
 .web-login-card { width: min(480px, 100%); padding: 40px 36px; display: flex; flex-direction: column; gap: 18px; }
 .web-login-card h1 { font: 700 clamp(36px, 8vw, 48px)/1 var(--font-display); letter-spacing: .03em; text-transform: uppercase; margin: 0; overflow-wrap: anywhere; min-width: 0; }
 .web-login-card p { margin: 0; color: var(--grey); }.web-login-card small { color: var(--dim); line-height: 1.6; }
-.eyebrow { display: inline-flex; align-items: center; gap: 12px; color: var(--amber); font: 600 13px/1.2 var(--font-display); letter-spacing: .28em; text-transform: uppercase; }
-.eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--amber); box-shadow: 0 0 8px var(--color-glow); flex: none; animation: grow .8s cubic-bezier(.2, .8, .2, 1) .1s backwards; }
-@keyframes grow { from { width: 0; } }
-/* a slow aurora behind the landing and sign-in screens */
-.web-setup::before, .web-login::before {
-  content: ""; position: fixed; inset: -20%; z-index: -1; pointer-events: none;
-  background:
-    radial-gradient(30% 35% at 28% 30%, color-mix(in oklch, var(--amber) 16%, transparent), transparent 70%),
-    radial-gradient(26% 30% at 76% 64%, color-mix(in oklch, var(--cyan) 10%, transparent), transparent 70%);
-  animation: aurora 16s ease-in-out infinite alternate;
-}
-@keyframes aurora { to { transform: translate(5%, -4%) rotate(6deg) scale(1.08); } }
-/* the landing powers up in order: eyebrow, title, copy, then the cards with their brackets closing in */
-.setup-heading > div > *, .setup-card, .setup-demo, .web-login-card { animation: rise-in .7s cubic-bezier(.2, .8, .2, 1) backwards; }
-.setup-heading h1 { animation: title-in .9s cubic-bezier(.2, .8, .2, 1) .08s backwards; }
-.setup-heading p { animation-delay: .22s; }
-.setup-card:nth-child(1) { animation-delay: .3s; } .setup-card:nth-child(2) { animation-delay: .42s; } .setup-demo { animation-delay: .54s; }
-@keyframes rise-in { from { opacity: 0; transform: translateY(22px); --bk: 64px; } }
-@keyframes title-in { from { opacity: 0; letter-spacing: .2em; filter: blur(8px); } }
+.eyebrow { display: inline-flex; align-items: center; gap: 12px; color: var(--amber); font: 400 12px/1.2 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; }
+.eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--amber); flex: none; }
+/* a block cursor after the screen title, the one ambient thing on the page */
+.web-login-card h1::after, .setup-heading h1::after { content: ""; display: inline-block; width: .5em; height: .8em; margin-left: .12em; background: var(--amber); animation: blink 1.1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
 
 /* the landing screen */
 .web-setup { overflow: auto; height: 100%; padding: 56px max(24px, calc((100% - 1360px) / 2)); user-select: text; }
 .setup-heading { display: flex; align-items: center; justify-content: space-between; gap: 40px; margin-bottom: 44px; }
 .setup-heading > div { min-width: 0; }
 .setup-heading h1 { font: 700 clamp(44px, 6.4vw, 92px)/.92 var(--font-display); letter-spacing: .01em; text-transform: uppercase; margin: 22px 0 20px; overflow-wrap: anywhere; min-width: 0; }
-.setup-heading h1 span { filter: drop-shadow(0 0 18px var(--color-glow)); background-image: linear-gradient(100deg, var(--amber) 42%, var(--white) 50%, var(--amber) 58%); animation-delay: 1.2s; }
+.setup-heading h1 span { color: var(--amber); }
 .setup-heading p { max-width: 560px; color: var(--grey); font-size: 17px; line-height: 1.6; margin: 0; }
 .setup-badge {
   flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; width: 200px; height: 174px; color: var(--cyan);
   clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
-  background: radial-gradient(circle at 50% 40%, color-mix(in oklch, var(--amber) 38%, var(--panel)), var(--surface) 72%);
-  position: relative; isolation: isolate; animation: bob 6s ease-in-out infinite;
+  background: color-mix(in oklch, var(--amber) 14%, var(--panel));
 }
-/* a radar sweep inside the hexagon */
-.setup-badge::before { content: ""; position: absolute; inset: -40%; z-index: -1; background: conic-gradient(transparent 0 290deg, color-mix(in oklch, var(--cyan) 45%, transparent) 358deg, transparent 360deg); animation: rot 4s linear infinite; }
-@keyframes bob { 50% { transform: translateY(-8px); } }
-.setup-badge span { font-size: 40px; line-height: 1; text-shadow: 0 0 16px var(--color-glow); }
+.setup-badge span { font-size: 40px; line-height: 1; }
 .setup-badge b { font: 700 30px/1 var(--font-display); letter-spacing: .36em; margin: 10px 0 6px .36em; color: var(--white); }
-.setup-badge small { font: 600 10px/1 var(--font-display); letter-spacing: .22em; color: var(--grey); }
+.setup-badge small { font: 400 10px/1 var(--font-mono); letter-spacing: .1em; color: var(--grey); }
 .setup-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 28px; }
 .setup-card { padding: 28px; min-width: 0; }
 .setup-card, .web-login-card {
@@ -79,16 +50,13 @@
     linear-gradient(var(--b) 0 0) bottom right / var(--bk) 2px, linear-gradient(var(--b) 0 0) bottom right / 2px var(--bk),
     var(--color-glass);
   background-repeat: no-repeat; background-origin: border-box;
-  transition: --bk .35s cubic-bezier(.2, .8, .2, 1), border-color .2s;
 }
-.setup-card:hover, .web-login-card:hover { --bk: 30px; border-color: var(--rule); }
-.web-login-card { box-shadow: 0 0 60px color-mix(in oklch, var(--amber) 14%, transparent); }
 .setup-section { display: flex; align-items: center; gap: 14px; padding-bottom: 18px; margin-bottom: 8px; border-bottom: 1px solid var(--line); }
 .setup-section > span { color: var(--ink); background: var(--amber); font: 700 14px/1 var(--font-display); padding: 6px 10px; clip-path: var(--chamfer); }
 .setup-section h2 { font: 700 22px/1.1 var(--font-display); letter-spacing: .06em; text-transform: uppercase; margin: 0; flex: 1; min-width: 0; }
-.setup-section > small { font: 600 11px/1 var(--font-display); letter-spacing: .16em; color: var(--dim); }
-.setup-card label, .web-login-card label { display: block; color: var(--grey); margin: 18px 0 8px; font: 600 13px/1.2 var(--font-display); letter-spacing: .12em; text-transform: uppercase; }
-.setup-card label small { color: var(--dim); font-size: 10px; margin-left: 8px; letter-spacing: .14em; }
+.setup-section > small { font: 400 11px/1 var(--font-mono); letter-spacing: .08em; color: var(--dim); }
+.setup-card label, .web-login-card label { display: block; color: var(--grey); margin: 18px 0 8px; font: 400 12px/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+.setup-card label small { color: var(--dim); font-size: 10px; margin-left: 8px; letter-spacing: .06em; }
 .setup-card .input, .web-login-card .input { min-height: 46px; padding: 10px 14px; font-size: 16px; }
 .setup-address { display: grid; grid-template-columns: minmax(0, 1fr) 120px; gap: 16px; }
 .setup-card details { margin: 20px 0; color: var(--grey); }.setup-card summary { cursor: pointer; font: 600 13px/1.4 var(--font-display); letter-spacing: .1em; text-transform: uppercase; }
@@ -103,7 +71,7 @@
 .profile-symbol { flex: none; font-size: 22px; color: var(--cyan); background: color-mix(in oklch, var(--amber) 18%, var(--panel)); padding: 12px; clip-path: var(--chamfer); }
 .profile-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
 .profile-info b { font: 700 18px/1.1 var(--font-display); letter-spacing: .04em; text-transform: uppercase; }.profile-info span { color: var(--grey); font-size: 14px; word-break: break-all; }
-.profile-info small { color: var(--dim); font: 600 11px/1.3 var(--font-display); letter-spacing: .12em; }
+.profile-info small { color: var(--dim); font: 400 11px/1.3 var(--font-mono); letter-spacing: .06em; }
 .profile-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; max-width: 200px; }.setup-card .profile-actions .btn { height: 34px; padding: 0 12px; font-size: 13px; }
 .setup-empty { display: flex; flex-direction: column; text-align: center; align-items: center; justify-content: center; min-height: 250px; color: var(--grey); }
 .setup-empty > span { font-size: 44px; color: var(--amber); opacity: .5; }
@@ -112,12 +80,10 @@
 .setup-demo {
   display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-top: 28px; padding: 26px 28px;
   border: 1px solid var(--line); border-left: 3px solid var(--cyan);
-  background: linear-gradient(90deg, color-mix(in oklch, var(--amber) 18%, transparent), color-mix(in oklch, var(--panel) 50%, transparent) 70%);
-  position: relative; overflow: hidden;
+  background: color-mix(in oklch, var(--panel) 60%, transparent);
 }
-.setup-demo::after { content: ""; position: absolute; inset: 0; pointer-events: none; transform: translateX(-110%); background: linear-gradient(105deg, transparent 40%, color-mix(in oklch, var(--white) 14%, transparent) 50%, transparent 60%); animation: sheen 6s ease-in-out 2s infinite; }
 .setup-demo b { color: var(--white); font: 700 22px/1.1 var(--font-display); letter-spacing: .06em; text-transform: uppercase; }.setup-demo p { color: var(--grey); font-size: 15px; margin: 8px 0 0; }.setup-demo .btn { flex: none; }
-.setup-bottom { display: flex; justify-content: space-between; gap: 16px; color: var(--dim); font: 600 11px/1.4 var(--font-display); letter-spacing: .2em; padding: 32px 0; }
+.setup-bottom { display: flex; justify-content: space-between; gap: 16px; color: var(--dim); font: 400 11px/1.4 var(--font-mono); letter-spacing: .08em; padding: 32px 0; }
 .setup-native { margin-top: 28px; padding: 20px 28px; border: 1px solid var(--line); background: color-mix(in oklch, var(--panel) 45%, transparent); }
 .setup-native > summary { color: var(--grey); cursor: pointer; font: 600 13px/1.4 var(--font-display); letter-spacing: .12em; text-transform: uppercase; }.setup-native > summary:hover { color: var(--white); }
 .setup-native p { color: var(--grey); font-size: 15px; line-height: 1.7; }.setup-native h2 { font: 700 20px/1.2 var(--font-display); letter-spacing: .06em; text-transform: uppercase; }.setup-native .btn { margin-top: 18px; height: 40px; padding: 0 18px; font-size: 14px; }
