@@ -40,12 +40,22 @@ These are the only three fonts, all self-hosted through `@fontsource`.
 - **Chamfer:** buttons and chips use `clip-path: var(--chamfer)`. Because clip-path clips outlines, focus is an inset
   box-shadow instead.
 - **Title tags:** panel titles sit on the top edge as an angled tag with a 3px accent bar.
-- **Backdrop:** a radial accent glow over a faint 48px grid.
+- **Backdrop:** a radial accent glow over a faint, drifting 48px grid.
 
 ## Motion
 
-Motion is limited to the existing slide/rise entrances and 0.15s colour/shadow transitions. `prefers-reduced-motion`
-turns it off.
+The HUD is alive but never busy. All motion is CSS, with no motion library.
+
+- **Ambient:** the backdrop grid drifts, a faint scan line passes every 9s, and the login and landing screens have a
+  slow aurora. A light runs along the toolbar edge and the gateway dot breathes.
+- **Shine:** one shared sheen (a diagonal highlight that is moved with `transform`) runs across panel titles, the primary
+  button, the condition chip, the masthead and toasts. Gradient text glints on the wordmark and the landing title.
+- **Lock-on:** bracket length is the animatable `@property --bk`. Panels boot in by flickering on while their brackets
+  close from wide to 14px. They grow on hover, and dialogs and landing cards lock on the same way.
+- **Feedback:** the active tab underline glows, buttons lift 1px and sweep on hover, and toasts spring in.
+- **Rules:** loop only `transform`, `opacity`, `filter` or small areas. Entrances use `backwards` fill and play once on
+  mount, never on data updates. `prefers-reduced-motion` zeroes every duration and delay, and the sheens sit
+  off-element when they are not moving.
 
 ## Fixed
 
