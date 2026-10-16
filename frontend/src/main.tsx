@@ -5,6 +5,8 @@ import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource-variable/geist";
 import "./theme.css";
 import { Session } from "./web/Session";
+import Topography from "./web/Topography";
+import { TERRAIN } from "./art/palette";
 
 /** What went wrong, on screen and in oni-rcon.log: the window's background is the console's own near-black, so a
  *  fault that drew nothing would otherwise look like a black screen and say nothing. */
@@ -38,4 +40,10 @@ class Guard extends Component<{ children: ReactNode }, { err: unknown }> {
   }
 }
 
-createRoot(document.getElementById("root")!).render(<Guard><Session /></Guard>);
+createRoot(document.getElementById("root")!).render(<Guard>
+  <div className="backdrop" aria-hidden="true">
+    {/* Backseat: no hover reactions, a slow drift (upstream is 0.25 / 0.2), and clicks on controls only flash it. */}
+    <Topography color={TERRAIN} mouseInteraction={false} clickEffect="flash" speed={0.1} morph={0.08} />
+  </div>
+  <Session />
+</Guard>);

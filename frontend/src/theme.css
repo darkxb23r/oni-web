@@ -18,6 +18,8 @@
   --color-accent-ink: oklch(0.17 0.04 290);
   --color-accent-tint: color-mix(in oklch, var(--color-accent) 14%, transparent);
   --color-holo: oklch(0.87 0.06 290);
+  /* The Topography backdrop only: Halo menu blue. Mirrored in art/palette.ts (the WebGL layer takes hex). */
+  --color-terrain: oklch(0.796 0.111 245);
   --color-text: oklch(0.95 0.003 270);
   --color-muted: oklch(0.76 0.006 270);
   --color-dim: oklch(0.63 0.008 270);
@@ -313,6 +315,8 @@ pre.json .k { color: var(--color-holo); } pre.json .s { color: var(--color-ok); 
 @keyframes rot { to { transform: rotate(360deg); } }
 .beat { animation: beat 3s steps(1) infinite; }
 @keyframes beat { 0% { opacity: .35; } 10% { opacity: 1; } }
+/* Behind everything, above the body fill: z-index -1 needs no stacking changes elsewhere. */
+.backdrop { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
 .fatal { position: fixed; inset: 0; z-index: 100; background: var(--color-ink); color: var(--color-text); padding: var(--space-6); overflow: auto; user-select: text; }
 .fatal pre { white-space: pre-wrap; color: var(--color-muted); }
 .lbl { display: block; color: var(--color-muted); margin: var(--space-3) 0 6px; font: 600 10.5px/var(--row) var(--font-body); letter-spacing: .08em; text-transform: uppercase; }

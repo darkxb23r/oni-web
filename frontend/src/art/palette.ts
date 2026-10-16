@@ -2,6 +2,8 @@
 // names stay so the components don't change: AMBER is the Graphite violet accent and CYAN its pale tint.
 export const AMBER = "#A492FB", CYAN = "#D3CEFA", RED = "#F75D59", GREEN = "#52CD86", DIM = "#87898E", WHITE = "#EEEEF0";
 export const GREY = "#AFB1B5", GOLD = "#F8CF68", INK = "#0B0C0E";
+// The Topography backdrop: --color-terrain.
+export const TERRAIN = "#7CC4FF";
 
 export type RGB = [number, number, number];
 

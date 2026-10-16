@@ -61,6 +61,25 @@ These are the only two families, both self-hosted through `@fontsource`.
   .55 opacity with `not-allowed`, and loading is `aria-busy` with a ring spinner.
 - **Inputs:** an ink fill, the `--color-border-input` edge, and an accent focus ring. `.missing` uses a danger edge.
 
+## Background
+
+Behind everything sits a live terrain: the Topography component from React Bits (`frontend/src/web/Topography.tsx`,
+vendored as is). It draws contour lines in Halo menu blue, `--color-terrain` oklch(0.796 0.111 245), mirrored as
+`TERRAIN` in `palette.ts` because WebGL takes hex. It is mounted once in `main.tsx` inside `.backdrop`, a fixed layer
+at z-index -1 with pointer events off. That puts it above the body's ink fill and below all content. The login and
+setup screens leave their fill transparent so the terrain shows through.
+
+The backdrop is the one exception to the no-glow rule and to the Motion rules below. Its bloom and slow drift belong to
+that layer only. It stays in the back seat: it ignores hovering, drifts at 0.1 speed and 0.08 morph, and the only
+reaction is a brief flash (brightness 1.6×, fading over about 0.25s) on clicks on controls. The flash is a local
+addition, `clickEffect="flash"`. It honours `prefers-reduced-motion` on its own (no travel, no intro, no glitch) and pauses when the tab
+is hidden. Never use the terrain blue in the UI layer.
+
+Alerts mark the terrain, another local addition. `engine.ts` fires a `terrain` window event. On trouble (`alert()`, a
+station LOST) one summit the UI leaves uncovered tints red. On recovery (a station back online, or acknowledging while
+RED) it tints green, and if a mark is already showing it recolours that same peak. The tint fades in to 0.85 over about
+1.5s, holds about 4s, then fades out over about 4s. It is a colour fade, not motion, so it plays under reduced motion too.
+
 ## Motion
 
 Quiet and quick. Animate only transform and opacity. All motion is CSS, with no motion library.

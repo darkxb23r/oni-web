@@ -14,6 +14,15 @@
       "footer": "status bar",
       "design_system": "design.md",
       "replaces": "custom: Section Three (atmospheric)"
+    },
+    {
+      "date": "2026-10-16",
+      "verb": "amend",
+      "scope": "background layer",
+      "target": "frontend (web console)",
+      "component": "React Bits Topography (WebGL2)",
+      "token": "--color-terrain oklch(0.796 0.111 245)",
+      "design_system": "design.md"
     }
   ]
 }
