@@ -41,6 +41,7 @@ export function Session() {
   };
   if (auth === null) return <div className="web-login"><p role="status">Establishing secure session…</p></div>;
   if (!auth) return <main className="web-login"><form className="web-login-card" onSubmit={login}>
+    <span className="web-mark" aria-hidden="true">▲</span>
     <span className="eyebrow">OFFICE OF NAVAL INTELLIGENCE</span><h1>Operator access</h1>
     <p>Project Reclaimer · Server Operations</p>
     {required ? <><label htmlFor="access-token">Web application access token</label>
@@ -52,10 +53,11 @@ export function Session() {
     <small>Credentials remain in the server gateway. Sessions expire after eight hours.</small>
   </form></main>;
   return <div className="web-shell"><div className="web-toolbar">
-    <span><b>ONI</b><span className="web-divider">/</span>SERVER OPERATIONS <small>WEB CONSOLE</small></span>
-    <span role="status" className={stream.connected ? "web-online" : "web-muted"}>
-      <span aria-hidden="true">●</span> {stream.connected ? "GATEWAY LIVE" : stream.detail || "GATEWAY READY"}
+    <span className="web-brand"><span className="web-mark" aria-hidden="true">▲</span><b>ONI RCON</b><span className="web-divider" aria-hidden="true" />
+      <span>Server operations</span><small>Web console</small></span>
+    <span role="status" className={`web-status ${stream.connected ? "web-online" : ""}`}>
+      <span className="dot" aria-hidden="true" /><span className="txt">{stream.connected ? "Gateway live" : stream.detail || "Gateway ready"}</span>
     </span>
-    <button onClick={() => signOut().catch((e) => setError(String(e)))}>{required ? "SIGN OUT" : "END SESSION"}</button>
+    <button className="btn ghost" onClick={() => signOut().catch((e) => setError(String(e)))}>{required ? "SIGN OUT" : "END SESSION"}</button>
   </div>{error && <div className="web-error" role="alert">{error}</div>}<div className="web-content"><App key={revision} /></div></div>;
 }

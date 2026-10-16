@@ -183,15 +183,17 @@ function Console({ onSetup }: { onSetup: () => void }) {
       <div className="body">
         <Sidebar onSetup={onSetup} />
         <div className="tabs">
+          <div className="web-station-actions">
+            <span className="station-id"><b>{oni.cur?.label || "Station"}</b>
+              <span className={`chip ${oni.cur?.online ? "ok" : oni.cur?.state === "connecting" ? "wait" : "bad"}`}>{oni.cur?.state.toUpperCase()}</span></span>
+            <button className="palette-trigger" aria-label="Command palette" onClick={() => palette(onSetup)}><span>Search or run a command…</span><kbd>Ctrl P</kbd></button>
+            <button className="btn ghost" onClick={() => { oni.stop(); onSetup(); }}>SERVER PROFILES</button>
+            <button className="btn danger" disabled={!oni.cur?.online} onClick={() => invoke("disconnect", { index: oni.sel }).catch((e) => oni.notify(String(e), "DISCONNECT", "error"))}>DISCONNECT</button>
+          </div>
           <div className="tabbar" role="tablist" aria-label="Server operations">
             {TABS.map((x, i) => (
-              <button key={x} role="tab" aria-selected={x === t} aria-controls={`pane-${x}`} className={x === t ? "on" : ""} onClick={() => setTab(x)} title={TAB_TIPS[x]}><span className="f">F{i + 1}</span>{NAMES[x]}</button>
+              <button key={x} role="tab" aria-selected={x === t} aria-controls={`pane-${x}`} className={x === t ? "on" : ""} onClick={() => setTab(x)} title={TAB_TIPS[x]}><span className="f">F{i + 1}</span><span className="n">{NAMES[x]}</span></button>
             ))}
-          </div>
-          <div className="web-station-actions">
-            <span>{oni.cur?.label || "STATION"} <small>{oni.cur?.state.toUpperCase()}</small></span>
-            <button className="btn" onClick={() => { oni.stop(); onSetup(); }}>SERVER PROFILES</button>
-            <button className="btn" disabled={!oni.cur?.online} onClick={() => invoke("disconnect", { index: oni.sel }).catch((e) => oni.notify(String(e), "DISCONNECT", "error"))}>DISCONNECT</button>
           </div>
           <div className="pane" key={t} id={`pane-${t}`} role="tabpanel" aria-label={NAMES[t]}>
             {t === "assets" ? <Assets /> : t === "intercepts" ? <Intercepts /> : t === "operations" ? <Operations /> : t === "blacklist" ? <Blacklist />

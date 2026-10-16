@@ -1,7 +1,7 @@
 // The web console's colours: hex mirrors of the OKLCH tokens in theme.css (blend() does its maths on hex). Upstream's
-// names stay so the components don't change: AMBER is now the steel-blue accent and CYAN the pale ice.
-export const AMBER = "#6DBBE8", CYAN = "#BEE6F3", RED = "#E85854", GREEN = "#5FCE8C", DIM = "#626D78", WHITE = "#E3E9ED";
-export const GREY = "#98A3AD", GOLD = "#FFD47A", INK = "#050A0F";
+// names stay so the components don't change: AMBER is the Graphite violet accent and CYAN its pale tint.
+export const AMBER = "#A492FB", CYAN = "#D3CEFA", RED = "#F75D59", GREEN = "#52CD86", DIM = "#87898E", WHITE = "#EEEEF0";
+export const GREY = "#AFB1B5", GOLD = "#F8CF68", INK = "#0B0C0E";
 
 export type RGB = [number, number, number];
 

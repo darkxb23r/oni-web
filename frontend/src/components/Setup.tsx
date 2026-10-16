@@ -57,8 +57,7 @@ export function Setup({ info, onDone }: { info: Dict; onDone: (demo: boolean, pr
   return <main className="web-setup">
     <header className="setup-heading"><div><span className="eyebrow">SECTION THREE / NETWORK CONTROL</span>
       <h1>Your fleet.<br /><span>One command center.</span></h1>
-      <p>Connect Project Reclaimer servers, monitor live traffic, and keep your operations in view.</p></div>
-      <div className="setup-badge"><span>◈</span><b>ONI</b><small>REMOTE CONSOLE</small></div></header>
+      <p>Connect Project Reclaimer servers, monitor live traffic, and keep your operations in view.</p></div></header>
     <div className="setup-grid"><section className="setup-card">
       <div className="setup-section"><span>01</span><h2>{editing ? "Edit connection" : "Add a connection"}</h2><small>RECLAIMER RCON</small></div>
       <form onSubmit={save}>

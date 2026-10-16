@@ -1,67 +1,92 @@
-# ONI Web: design system ("Section Three")
+# ONI Web: design system ("Graphite")
 
-The web console looks different from the terminal and Tauri apps on purpose. It is meant to read as a working Office of
-Naval Intelligence terminal on Reach: gunmetal panels, condensed display type, angled corners, mono readouts and
-no glow. It's hardware, not a game menu.
+The web console is the admin remote: a calm operations workbench you leave open on a second monitor. It looks
+deliberately unlike the Tauri app's amber terminal. It uses neutral graphite surfaces, one solid violet signal colour,
+and status colours only where they mean something. It should read like a modern ops tool, not a game menu.
 
-- **Genre:** atmospheric
-- **Theme:** custom "Section Three"
+- **Genre:** modern-minimal
+- **Macrostructure:** workbench (fleet rail · station header · tabs · panes · status bar)
+- **Theme:** custom "Graphite"
 
 ## Tokens
 
-The tokens are OKLCH and live in `frontend/src/theme.css` `:root`. `frontend/src/art/palette.ts` holds hex mirrors of
-them, because canvas art and `blend()` do their maths on hex. If you change a token, change both files.
+The tokens are OKLCH and live in `frontend/src/theme.css` `:root`. `frontend/src/art/palette.ts` holds hex mirrors
+of them, because components colour text inline and canvas art and `blend()` do their maths on hex. If you change a
+token, change both files.
 
 | Token | Value | Use |
 |---|---|---|
-| `--color-ink` | oklch(0.14 0.015 250) | page background |
-| `--color-surface` | oklch(0.175 0.018 250) | chrome bars, title tags |
-| `--color-panel` / `--color-panel-2` | oklch(0.21 0.02 250) / (0.27 0.025 250) | panels, raised fills |
-| `--color-accent` | oklch(0.76 0.1 235) | steel blue: frames, active state, primary buttons |
-| `--color-holo` | oklch(0.9 0.045 220) | pale ice: wordmark, focus frames |
-| `--color-text` / `--color-muted` / `--color-dim` | 0.93 / 0.71 / 0.53 L | type hierarchy |
-| `--color-danger` / `--color-ok` / `--color-warn` / `--color-gold` | red / green / amber / gold | status only |
+| `--color-ink` | oklch(0.155 0.004 270) | page background, toolbar, inputs |
+| `--color-surface` | oklch(0.18 0.005 270) | fleet rail, tab bar, status bar |
+| `--color-panel` / `--color-panel-2` | 0.205 / 0.245 L | panels, raised fills, buttons |
+| `--color-border` / `--color-border-strong` | 0.265 / 0.32 L | hairlines, control edges |
+| `--color-border-input` | oklch(0.51 0.01 270) | form-field edges (3:1 against ink and panel) |
+| `--color-accent` / `--color-accent-hover` | oklch(0.72 0.15 290) / (0.78 0.13 290) | the violet signal: selection, primary, active tab |
+| `--color-accent-ink` | oklch(0.17 0.04 290) | text on accent, danger, ok and warn fills |
+| `--color-accent-tint` | accent at 14% | selected rows, selected server card, demo callout |
+| `--color-holo` | oklch(0.87 0.06 290) | pale violet: highlights in art and readouts |
+| `--color-text` / `--color-muted` / `--color-dim` | 0.95 / 0.76 / 0.63 L | type hierarchy |
+| `--color-danger` / `--color-danger-text` / `--color-ok` / `--color-warn` / `--color-gold` | red / soft red / green / amber / gold | status only |
 
-Upstream variable names (`--amber`, `--cyan`, `--red` and so on) are kept as aliases, so the components didn't need to
-change. `--amber` now resolves to the accent and `--cyan` to ice.
+The contrast figures are in the `theme.css` stamp. Body text is at least 4.5:1, dim is 4.6:1 on panel-2, and UI
+edges are at least 3:1.
+
+The upstream variable names (`--amber`, `--cyan`, `--red` and so on) are kept as aliases, so the components didn't
+need to change. `--amber` now resolves to the violet accent and `--cyan` to holo.
+
+Spacing is on a 4pt scale (`--space-1` to `--space-12`). The radii are 4 / 6 / 8 / 10 / 12 and pill. Controls are
+28px tall in the console and 32–40px in the header and setup.
 
 ## Type
 
-These are the only three fonts, all self-hosted through `@fontsource`.
+These are the only two families, both self-hosted through `@fontsource`.
 
-- **Display:** Saira Condensed 600/700, uppercase. Used for tabs, panel titles, buttons and headings.
-- **Body:** Barlow 400/500/600, with tabular numbers.
-- **Mono:** JetBrains Mono 400. Used for terminal output (`.log`, `pre`, `.boot`, `.setup-progress`, the footer key
-  chips) and for every label and readout: table headers, fact keys, field labels, panel sub-tags, the masthead, the
-  toolbar and the eyebrows. Uppercase, 11–12px, about .06–.08em tracking.
+- **Interface:** Geist Variable, with tabular numbers. It is used for everything that isn't a readout: headings
+  (600, slightly negative tracking), tabs (sentence case), body and buttons (600, uppercase, .05em tracking).
+- **Readouts:** JetBrains Mono 400. It is used for terminal output (`.log`, `pre`, `.boot`), key caps, panel sub-tags,
+  eyebrows, status chips and the gateway pill.
 - **No italics anywhere.** Carry emphasis with weight or accent colour.
 
-## Motifs
+## Components
 
-- **Corner brackets:** panels, dialogs and login/setup cards get eight `linear-gradient` background layers drawn in
-  `--b`. That is accent by default, ice on `:focus-within` and danger on `.dialog.danger`. They are static at `--bk`
-  (14px on panels, 18px on cards).
-- **Chamfer:** buttons and chips use `clip-path: var(--chamfer)`. Because clip-path clips outlines, focus is an inset
-  box-shadow instead.
-- **Title tags:** panel titles sit on the top edge as an angled tag with a 3px accent bar.
-- **Backdrop:** a static, faint 48px grid over a flat gunmetal gradient.
-- **No glow:** no `text-shadow`, glow `box-shadow`, `drop-shadow` or backdrop blur. Depth comes only from the dark drop
-  shadow under dialogs and toasts.
+- **Toolbar (52px):** an accent ▲ mark, "ONI RCON", the product line, the gateway status pill and sign-out.
+- **Masthead KPI strip (44px):** a condition pill (green / amber / red, where red blinks its dot), Stations n/total,
+  Assets, Findings (only when there are some), a TOP SECRET tag, the operator and the clock.
+- **Station header (56px):** the station name and status chip, a command-palette trigger (it collapses to ⌕ below
+  1050px), SERVER PROFILES (ghost) and DISCONNECT (danger tint; it becomes a ⏻ icon below 400px).
+- **Tabs:** underline tabs with the F-key in a mono cap. The underline grows by `scaleX`.
+- **Panels:** flat panel fill with a hairline border and radius 10. The title sits top-left with a mono accent
+  sub-tag. There are no nested cards, side stripes or gradients.
+- **Buttons:** primary (accent fill), danger, error, warning, success, ghost. All 8 states are styled. Disabled is
+  .55 opacity with `not-allowed`, and loading is `aria-busy` with a ring spinner.
+- **Inputs:** an ink fill, the `--color-border-input` edge, and an accent focus ring. `.missing` uses a danger edge.
 
 ## Motion
 
-Short and mechanical, like a screen redraw. Nothing loops except status. All motion is CSS, with no motion library.
+Quiet and quick. Animate only transform and opacity. All motion is CSS, with no motion library.
 
-- **Entrances:** a pane slides 8px in over .14s, a panel draws in top-down with a .18s linear clip, dialogs rise over
-  .16s and toasts slide 16px in over .16s. They play once on mount, never on data updates.
-- **Status loops (the only ones):** the blinking block cursor after the login and landing titles, the `.spin` busy
-  glyph, the `.beat` tick and the red `.card.pulse` on a server that needs attention.
-- **Feedback:** hover changes background colour only (.1s). No lifts, sheens, scan lines or drifting layers.
-- **Rules:** `prefers-reduced-motion` zeroes every duration and delay.
+- **Entrances:** a pane rises 6px over 180ms, dialogs rise over 180ms over a 120ms scrim fade, and toasts rise 8px.
+  They play once on mount, never on data updates.
+- **Status loops (the only ones):** the red condition dot, the `.card.pulse` overlay on a server that needs
+  attention, the `.spin` and `aria-busy` spinners, and the `.beat` tick.
+- **Feedback:** hover changes colour only. Pressing a control nudges it 1px down.
+- **Rules:** `prefers-reduced-motion` turns off every animation and transition.
+
+## Responsive
+
+The layout is verified at 1440, 1280, 768, 414, 375 and 320 with no horizontal scroll (`overflow-x: clip` on html
+and body).
+
+- **≤1050:** the fleet rail is 240px, the F-key caps and TOP SECRET hide, and the palette trigger becomes an icon.
+- **≤760:** the rail is 168px. The brand subline, the gateway text, Operator, the clock, Assets, SERVER PROFILES and
+  the station chip all hide. Split panes stack.
+- **≤400:** the rail is 136px, DISCONNECT becomes an icon, the Findings label hides, and the status bar keeps two hints
+  plus the palette.
 
 ## Fixed
 
-- **Tab names:** keep the ONI names (ASSETS, INTERCEPTS, OPERATIONS, BLACKLIST, CONSOLE, FORGE, HEALTH).
-- **Layout constants:** don't change these (`--row`, the 82px server card with `contain: strict`, face sizing). Re-skin
-  around them.
-- **Canvas art:** the Superintendent face and crest keep their own colours.
+- **Tab names:** keep the ONI names (Assets, Intercepts, Operations, Blacklist, Console, Forge, Health) and the F1–F7
+  keys.
+- **Layout constants:** don't change these (`--row`, the 82px server card with `contain: strict`, face sizing).
+  Re-skin around them.
+- **Canvas art:** the Superintendent face, the crest and the archive intro keep their own colours.
