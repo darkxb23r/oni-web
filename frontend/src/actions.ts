@@ -455,7 +455,7 @@ export async function goto() {
   if (i !== null) oni.select(Number(i));
 }
 
-export const STATE: Record<string, [string, string]> = { online: ["◉", "#5FB98A"], connecting: ["◌", "#D9A441"], offline: ["○", "#E5484D"], denied: ["⊘", "#E5484D"] };
+export const STATE: Record<string, [string, string]> = { online: ["◉", "#52CD86"], connecting: ["◌", "#F5AE39"], offline: ["○", "#F75D59"], denied: ["⊘", "#F75D59"] };
 
 export async function addServer(onSetup: () => void) {
   await invoke("setup_open");

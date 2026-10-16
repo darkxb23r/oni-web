@@ -1,26 +1,26 @@
 // The frame around the tabs: the masthead with the condition, the alert banner, the key hints along the bottom, and
 // the toasts.
-import { AMBER, CYAN, DIM, INK, RED, WHITE, blend } from "../art/palette";
 import { oni, useV } from "../engine";
 import { hms, num } from "../lib/util";
 
+/** The KPI strip: condition, fleet reach, findings, operator and clock. The condition is coloured by class, not by
+ *  the hex oni.condition() returns, so it follows the web tokens. */
 export function Masthead({ width }: { width: number }) {
   useV((s) => s.mast);
-  let [cond, color] = oni.condition();
-  if (cond === "RED" && Date.now() % 2000 < 1000) color = blend(RED, INK, 0.55);
-  const online = oni.stations.filter((s) => s.online).length, unseen = oni.unseen;
+  const [cond] = oni.condition();
+  const total = oni.stations.length, online = oni.stations.filter((s) => s.online).length, unseen = oni.unseen;
   const assets = oni.stations.filter((s) => s.online).reduce((a, s) => a + (num(s.data.status?.players) ?? 0), 0);
-  const wide = width >= 1150;
   return (
     <div className="masthead">
-      <span><span style={{ color: AMBER }}>▲ {wide ? "OFFICE OF NAVAL INTELLIGENCE" : "ONI"}</span>{width >= 1300 ? <span style={{ color: DIM }}>  ·  SECTION III</span> : null}</span>
-      <span>
-        <span className="cond" style={{ background: color }}>CONDITION {cond}{unseen ? ` · ⚑ ${unseen}` : ""}</span>
-        <span style={{ color: online ? CYAN : RED }}>  {online}/{oni.stations.length} {wide ? "STATIONS SECURE" : "SECURE"}  ·  {assets} ASSETS</span>
-      </span>
+      <span className={`cond ${cond.toLowerCase()}`}>Condition {cond}</span>
+      <span className="stat"><small>Stations</small><b className={online === 0 ? "bad" : online < total ? "part" : ""}>{online}<span>/{total}</span></b></span>
+      <span className="stat opt"><small>Assets</small><b>{assets}</b></span>
+      {unseen ? <span className="stat alert" title="Superintendent findings (F8)"><small>Findings</small><b>⚑ {unseen}</b></span> : null}
+      <span className="sp" />
+      {width >= 1150 ? <span className="classified">TOP SECRET</span> : null}
       <span className="r">
-        {wide ? <span style={{ color: RED }}>TOP SECRET // </span> : null}
-        <span style={{ color: WHITE }}>OPERATOR {oni.by.toUpperCase()}  </span><span style={{ color: DIM }}>{hms(new Date())}</span>
+        <span><small>Operator</small><b>{oni.by.toUpperCase()}</b></span>
+        <span><b>{hms(new Date())}</b></span>
       </span>
     </div>
   );
@@ -53,7 +53,7 @@ export function Footer() {
     <div className="footer">
       {keys.map(([k, v]) => <span key={k + v}><span className="k">{k}</span>{v}</span>)}
       <span className="sp" />
-      <span><span className="k">^P</span>palette</span>
+      <span><span className="k">^P</span>Command palette</span>
     </div>
   );
 }

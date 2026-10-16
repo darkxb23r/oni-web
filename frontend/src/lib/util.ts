@@ -126,7 +126,7 @@ export function bar(v: unknown, width = 5): Line {
 const BARS = "▁▂▃▄▅▆▇█";
 export function spark(values: number[], color = CYAN): Line {
   const top = Math.max(0, ...values) || 1;
-  return values.map((v) => [BARS[Math.max(0, Math.min(7, Math.ceil((v / top) * 8) - 1))], v > 0 ? color : "#1C242E"] as Span);
+  return values.map((v) => [BARS[Math.max(0, Math.min(7, Math.ceil((v / top) * 8) - 1))], v > 0 ? color : "#2C2E32"] as Span);
 }
 
 export function splitBar(parts: [number, string][], width: number): Line {

@@ -1,6 +1,9 @@
-// The console's colours: charcoal, amber primary, holo cyan, red for anything that bites. The same as the terminal.
-export const AMBER = "#D9A441", CYAN = "#4FC3D9", RED = "#E5484D", GREEN = "#5FB98A", DIM = "#5C6773", WHITE = "#D6DCE4";
-export const GREY = "#8B95A1", GOLD = "#FFD27A", INK = "#06080B";
+// The web console's colours: hex mirrors of the OKLCH tokens in theme.css (blend() does its maths on hex). Upstream's
+// names stay so the components don't change: AMBER is the Graphite violet accent and CYAN its pale tint.
+export const AMBER = "#A492FB", CYAN = "#D3CEFA", RED = "#F75D59", GREEN = "#52CD86", DIM = "#87898E", WHITE = "#EEEEF0";
+export const GREY = "#AFB1B5", GOLD = "#F8CF68", INK = "#0B0C0E";
+// The Topography backdrop: --color-terrain.
+export const TERRAIN = "#7CC4FF";
 
 export type RGB = [number, number, number];
 

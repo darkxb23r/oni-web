@@ -21,6 +21,9 @@ export const FLEET = 12;
 const FANOUT = 4;
 const SLOW_POLL = 15_000;
 export const SPREE = 5;
+/** Tint one peak of the terrain backdrop for a few seconds (web/Topography.tsx listens): red on trouble, green when
+ *  it clears. */
+const terrain = (color: string) => window.dispatchEvent(new CustomEvent("terrain", { detail: color }));
 export type Tab = "assets" | "intercepts" | "operations" | "blacklist" | "console" | "forge" | "health";
 export const TABS: Tab[] = ["assets", "intercepts", "operations", "blacklist", "console", "forge", "health"];
 
@@ -332,6 +335,7 @@ class Oni {
     st.info = m.info ?? st.info;
     if (state !== "connecting" && !m.snapshot) this.runner.connection(st.where, state === "online", st.label);
     if (state === "online") {
+      if (st.prev === "offline") terrain(GREEN); // back after a loss, not the first connect
       st.medals.newGame(); // what happened while we were away is unknown
       this.relabel();
       this.fetch(st, "status", "players", "maps", "modes", "nextmap", "vote", "bans", "vpn", "admins");
@@ -343,6 +347,7 @@ class Oni {
       this.notify(`${explain(detail, state)}\nNot retried by itself. RECONNECT (F3) asks for the password again.`, `${st.label} · SIGN-IN REFUSED`, "error", 20);
     } else if (state === "offline" && st.prev === "online") {
       this.logEvent(st, { event: "uplink", text: `LOST  ${detail}` });
+      terrain(RED);
     }
     st.retryAt = state === "offline" && m.retry_in ? performance.now() + m.retry_in * 1000 : 0;
     if (state !== "connecting") st.prev = state;
@@ -418,6 +423,7 @@ class Oni {
 
   /** Acknowledge everything: the alerts, the banner, the toasts, the face. */
   acknowledgeFindings() {
+    if (this.condition()[0] === "RED") terrain(GREEN);
     this.findings.acknowledge();
     this.sup.clear();
     this.alertAt = -Infinity;
@@ -605,6 +611,7 @@ class Oni {
    *  or at the feed. No station: the host's. */
   alert(st: Station | null) {
     this.bell();
+    terrain(RED);
     this.alertAt = performance.now();
     if (st) {
       st.flash = this.alertAt + 3000;
