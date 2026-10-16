@@ -34,7 +34,7 @@ edges are at least 3:1.
 The upstream variable names (`--amber`, `--cyan`, `--red` and so on) are kept as aliases, so the components didn't
 need to change. `--amber` now resolves to the violet accent and `--cyan` to holo.
 
-Spacing is on a 4pt scale (`--space-1` to `--space-12`). The radii are 4 / 6 / 8 / 10 / 12 and pill. Controls are
+Spacing is on a 4pt scale (`--space-1` to `--space-12`). The radii are 4 / 6 / 8 / 10 / 12, and pill only for the scrollbar thumb. Controls are
 28px tall in the console and 32–40px in the header and setup.
 
 ## Type
@@ -44,16 +44,22 @@ These are the only two families, both self-hosted through `@fontsource`.
 - **Interface:** Geist Variable, with tabular numbers. It is used for everything that isn't a readout: headings
   (600, slightly negative tracking), tabs (sentence case), body and buttons (600, uppercase, .05em tracking).
 - **Readouts:** JetBrains Mono 400. It is used for terminal output (`.log`, `pre`, `.boot`), key caps, panel sub-tags,
-  eyebrows, status chips and the gateway pill.
+  eyebrows, and the condition, station and gateway status readouts.
 - **No italics anywhere.** Carry emphasis with weight or accent colour.
 
 ## Components
 
-- **Toolbar (52px):** an accent ▲ mark, "ONI RCON", the product line, the gateway status pill and sign-out.
-- **Masthead KPI strip (44px):** a condition pill (green / amber / red, where red blinks its dot), Stations n/total,
-  Assets, Findings (only when there are some), a TOP SECRET tag, the operator and the clock.
-- **Station header (56px):** the station name and status chip, a command-palette trigger (it collapses to ⌕ below
+- **Toolbar (52px):** the ONI-RCON seal and wordmark (`web/Brand.tsx`, from the Claude Design "ONI-RCON Header Logo",
+  in the accent and text tokens), the product line, the gateway status and sign-out. In the seal, the dial turns,
+  the triangle's lit half flips and a scan line falls through it. The wordmark (display face 700, .2em tracking)
+  decodes in on load and on hover, glitches one letter every 5.2s, and carries a slow shine. An accent sweep runs once
+  along the bottom edge. The sign-in card shows the same seal at 44px.
+- **Masthead KPI strip (44px):** the condition (green / amber / red), Stations n/total, Assets, Findings (only when there
+  are some), TOP SECRET in danger red, the operator and the clock.
+- **Station header (56px):** the station name and its status, a command-palette trigger (it collapses to ⌕ below
   1050px), SERVER PROFILES (ghost) and DISCONNECT (danger tint; it becomes a ⏻ icon below 400px).
+- **No pills or badges:** status is coloured mono text, never a capsule, a tinted fill, a border or a dot. Toasts
+  colour their title instead of carrying a dot. Key caps (the F-keys and `kbd` hints) are the only boxed labels.
 - **Tabs:** underline tabs with the F-key in a mono cap. The underline grows by `scaleX`.
 - **Panels:** flat panel fill with a hairline border and radius 10. The title sits top-left with a mono accent
   sub-tag. There are no nested cards, side stripes or gradients.
@@ -86,8 +92,9 @@ Quiet and quick. Animate only transform and opacity. All motion is CSS, with no 
 
 - **Entrances:** a pane rises 6px over 180ms, dialogs rise over 180ms over a 120ms scrim fade, and toasts rise 8px.
   They play once on mount, never on data updates.
-- **Status loops (the only ones):** the red condition dot, the `.card.pulse` overlay on a server that needs
-  attention, the `.spin` and `aria-busy` spinners, and the `.beat` tick.
+- **Status loops (the only ones):** the `.card.pulse` overlay on a server that needs
+  attention, the `.spin` and `aria-busy` spinners, and the `.beat` tick. The brand seal and wordmark are the one
+  decorative exception (see Toolbar), and reduced motion stills them too.
 - **Feedback:** hover changes colour only. Pressing a control nudges it 1px down.
 - **Rules:** `prefers-reduced-motion` turns off every animation and transition.
 
@@ -97,9 +104,10 @@ The layout is verified at 1440, 1280, 768, 414, 375 and 320 with no horizontal s
 and body).
 
 - **≤1050:** the fleet rail is 240px, the F-key caps and TOP SECRET hide, and the palette trigger becomes an icon.
-- **≤760:** the rail is 168px. The brand subline, the gateway text, Operator, the clock, Assets, SERVER PROFILES and
-  the station chip all hide. Split panes stack.
-- **≤400:** the rail is 136px, DISCONNECT becomes an icon, the Findings label hides, and the status bar keeps two hints
+- **≤760:** the rail is 168px. The brand subline, Operator, the clock, Assets, SERVER PROFILES and
+  the station status all hide. The brand keeps its width and the gateway status
+  cuts off with an ellipsis. Split panes stack.
+- **≤400:** the rail is 136px, DISCONNECT becomes an icon, the gateway status and the Findings label hide, and the status bar keeps two hints
   plus the palette.
 
 ## Fixed

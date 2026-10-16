@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { App } from "../App";
 import { oni } from "../engine";
 import { api, closeEvents, signOut } from "./bridge";
+import { Brand, Mark } from "./Brand";
 import "./web.css";
 
 export function Session() {
@@ -41,7 +42,7 @@ export function Session() {
   };
   if (auth === null) return <div className="web-login"><p role="status">Establishing secure session…</p></div>;
   if (!auth) return <main className="web-login"><form className="web-login-card" onSubmit={login}>
-    <span className="web-mark" aria-hidden="true">▲</span>
+    <Mark size={44} />
     <span className="eyebrow">OFFICE OF NAVAL INTELLIGENCE</span><h1>Operator access</h1>
     <p>Project Reclaimer · Server Operations</p>
     {required ? <><label htmlFor="access-token">Web application access token</label>
@@ -53,11 +54,10 @@ export function Session() {
     <small>Credentials remain in the server gateway. Sessions expire after eight hours.</small>
   </form></main>;
   return <div className="web-shell"><div className="web-toolbar">
-    <span className="web-brand"><span className="web-mark" aria-hidden="true">▲</span><b>ONI RCON</b><span className="web-divider" aria-hidden="true" />
-      <span>Server operations</span><small>Web console</small></span>
+    <span className="web-brand"><Brand /><span className="web-divider" aria-hidden="true" />
+      <span>Server operations</span></span>
     <span role="status" className={`web-status ${stream.connected ? "web-online" : ""}`}>
-      <span className="dot" aria-hidden="true" /><span className="txt">{stream.connected ? "Gateway live" : stream.detail || "Gateway ready"}</span>
-    </span>
+      {stream.connected ? "Gateway live" : stream.detail || "Gateway ready"}</span>
     <button className="btn ghost" onClick={() => signOut().catch((e) => setError(String(e)))}>{required ? "SIGN OUT" : "END SESSION"}</button>
   </div>{error && <div className="web-error" role="alert">{error}</div>}<div className="web-content"><App key={revision} /></div></div>;
 }

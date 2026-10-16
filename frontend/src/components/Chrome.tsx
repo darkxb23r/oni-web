@@ -12,7 +12,7 @@ export function Masthead({ width }: { width: number }) {
   const assets = oni.stations.filter((s) => s.online).reduce((a, s) => a + (num(s.data.status?.players) ?? 0), 0);
   return (
     <div className="masthead">
-      <span className={`cond ${cond.toLowerCase()}`}><i aria-hidden="true" />Condition {cond}</span>
+      <span className={`cond ${cond.toLowerCase()}`}>Condition {cond}</span>
       <span className="stat"><small>Stations</small><b className={online === 0 ? "bad" : online < total ? "part" : ""}>{online}<span>/{total}</span></b></span>
       <span className="stat opt"><small>Assets</small><b>{assets}</b></span>
       {unseen ? <span className="stat alert" title="Superintendent findings (F8)"><small>Findings</small><b>⚑ {unseen}</b></span> : null}
